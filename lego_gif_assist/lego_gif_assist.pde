@@ -11,7 +11,7 @@ boolean manual = false;
 Cell[][] grid;
 
 // Global var for resolution of pixels
-int res = 15;
+int res = 10;
 
 //import source gif 
 //todo: allow import from URL
