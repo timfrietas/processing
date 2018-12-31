@@ -1,4 +1,4 @@
-This is the first take of hopefuly many on Amish quilt patterns.
+This is the first take of hopefully many on Amish quilt patterns.
 
 This one is specifically a take on an non-traditional approach to the tumbling blocks pattern in the style of a modern quilt maker I can't seem to find anymore.  What was interesting was that it was less about individual block patterns and more about columns of blocks.
 
