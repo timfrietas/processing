@@ -2,8 +2,8 @@
 
 //--So many nested loops.  Can probably fix that now that it is working.
 //--Colors still determined by x or y value.  Distributing them more randomly is more challenging but may be interesting
-//--Animations can be achieved by applying a tranistion to patch.turn() or changing rotate between tile flips as commented below.
-//  Ideally we would let things scale() in one state then move on to the next, and so on, until we can get a perfect loop.
+//--Need to tune scale() sine wave to get perfect loop
+//--Add delay between twists
 
 
 
@@ -43,9 +43,10 @@ void draw() {
                 push();
                 Patch patch = new Patch(colors[y], (x * tilesize), (y * tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
                 patch.move();
-                //patch.turn(90);  //< rotate group is nice transition effect
+                patch.turn(0+frameCount%360);  //< rotate group is nice transition effect
                 scale(0.75+sin(frameCount*0.1)*0.25);
                 patch.drawpatch();
+                //delay(5);
                 //println(x * tilecenter, y * tilecenter);
                 //println("X value: ", x);
                 //println("Y value: ", y);
@@ -68,6 +69,7 @@ void draw() {
     translate(-tilesize*32,tilesize * 8);
     //rotateZ(radians(180));
   }
+  delay(40);
 }
 
 class Patch {
