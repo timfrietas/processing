@@ -25,48 +25,22 @@ void draw() {
   //noLoop();
   background(10);
   noStroke();
-  //translate(width/2+tilecenter, tilecenter);
+
+  //tile offsetting--does this belong in a loop below?
   translate(tilesize * 4+ tilecenter, tilecenter);
-  //loop to flip the rows
+
+  //Throwaway patch for initialization
+  Patch patch = new Patch(colors[0], (tilesize), (tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
+  
+  //loop to flip the rows  <--should probably refactor this to support arbitrary canvas height
   for (int i=0; i <= 3; i++) {
-    //loop to transpose whole tiles into rows
+    //loop to transpose whole tiles into rows <--should probably refactor this to support arbitrary canvas width
     for (int j=0; j <= 3; j++) {
-      //translate half tile to become whole
-      for (int k=0; k <= 1; k++) {
-        //translate once to create half tile
-        for (int z=0; z <= 1; z++) {
-          //create quarter tile
-          for (int x=0; x < 4; x++) {
-            for (int y=0; y < 4; y++) {
-              //hack to print only the proper triangles in the inner tile
-              if ((x+y) > 0 && (x+y) < 5) {
-                push();
-                Patch patch = new Patch(colors[y], (x * tilesize), (y * tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
-                patch.move();
-                patch.turn(0+frameCount%360);  //< rotate group is nice transition effect
-                scale(0.75+sin(frameCount*0.1)*0.25);
-                patch.drawpatch();
-                //delay(5);
-                //println(x * tilecenter, y * tilecenter);
-                //println("X value: ", x);
-                //println("Y value: ", y);
-                pop();
-              }
-            }
-          }
-          //  Transpose to create tile
-          translate(tilesize * 3, tilesize * 4);
-          rotateZ(radians(90));
-        }
-        //translate(tilesize * 3, tilesize * 4);
-        //rotateZ(radians(90)); //<This is super interesting if left on, could make awesome animation transition state
-      }
-      //create rows
+      patch.wholetile(4, 4);
       translate(tilesize * 8, 0);
-      //rotateZ(radians(90));
     }
     //flip rows
-    translate(-tilesize*32,tilesize * 8);
+    translate(-tilesize*32, tilesize * 8);
     //rotateZ(radians(180));
   }
   delay(40);
@@ -112,6 +86,40 @@ class Patch {
   //triangle orientation
   void turn(int deg) {
     rotateZ(radians(deg));
+  }
+
+  //Draw 4x4 quarter tile, excluding select triangles
+  void quartertile(int a, int b) {
+    for (int x=0; x < a; x++) {
+      for (int y=0; y < b; y++) {
+        //hack to print only the proper triangles in the inner tile
+        if ((x+y) > 0 && (x+y) < 5) {
+          push();
+          Patch patch = new Patch(colors[y], (x * tilesize), (y * tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
+          patch.move();
+          patch.turn(0+frameCount%360);  //< rotate group is nice transition effect
+          scale(0.75+sin(frameCount*0.1)*0.25);
+          patch.drawpatch();
+          pop();
+        }
+      }
+    }
+  }
+
+  //Translate quartertile once to create half tile
+  void halftile(int a, int b) {
+    for (int z=0; z <= 1; z++) {
+      quartertile(a, b);
+      translate(tilesize * 3, tilesize * 4);
+      rotateZ(radians(90));
+    }
+  }
+
+  //Translate half tile once more to become whole
+  void wholetile(int a, int b) {
+    for (int k=0; k <= 1; k++) {
+      halftile(a, b);
+    }
   }
 }
 
