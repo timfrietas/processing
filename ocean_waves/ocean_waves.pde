@@ -26,8 +26,8 @@ void draw() {
   background(10);
   noStroke();
 
-  //tile offsetting--does this belong in a loop below?
-  translate(tilesize * 4+ tilecenter, tilecenter);
+  //offset initial tile to center for rotate
+  translate(tilesize* 4 + tilecenter, tilecenter);
 
   //Throwaway patch for initialization
   Patch patch = new Patch(colors[0], (tilesize), (tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
@@ -44,6 +44,7 @@ void draw() {
     //rotateZ(radians(180));
   }
   delay(40);
+  save("stillframe.png");
 }
 
 class Patch {
@@ -84,7 +85,7 @@ class Patch {
   }
 
   //triangle orientation
-  void turn(int deg) {
+  void turn(float deg) {
     rotateZ(radians(deg));
   }
 
@@ -92,14 +93,19 @@ class Patch {
   void quartertile(int a, int b) {
     for (int x=0; x < a; x++) {
       for (int y=0; y < b; y++) {
-        //hack to print only the proper triangles in the inner tile
+        //quick hack to print only the proper triangles in the quarter tile pattern
+        //excludes (0,0), (2,3), (3,2), (3,3)
         if ((x+y) > 0 && (x+y) < 5) {
+          //rendering and animation
           push();
+          //for (int i=0;i<360;i++){
           Patch patch = new Patch(colors[y], (x * tilesize), (y * tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
           patch.move();
           patch.turn(0+frameCount%360);  //< rotate group is nice transition effect
-          scale(0.75+sin(frameCount*0.1)*0.25);
+          //scale(0.75+sin(frameCount*0.1)*0.25);
           patch.drawpatch();
+          //i++;
+          //}
           pop();
         }
       }
