@@ -11,6 +11,7 @@
 int tilesize = 20;
 int tilecenter = tilesize/2;
 int[] colors = {#d081dc, #f6f983, #3d9df3, #2d8bde, #662d62, #56cde7, #377003, #ed2551, #f47fe1, #f7ba20, #ccc020, #7c7b68};
+float ease = 0.05;
 
 //setup
 void setup() {
@@ -29,7 +30,7 @@ void draw() {
   //offset initial tile to center for rotate
   translate(tilesize* 4 + tilecenter, tilecenter);
 
-  //Throwaway patch for initialization
+  //Throwaway for initialization
   Patch patch = new Patch(colors[0], (tilesize), (tilesize), -(tilecenter), -(tilecenter), -(tilecenter), tilecenter, tilecenter, -(tilecenter)); 
   
   //loop to flip the rows  <--should probably refactor this to support arbitrary canvas height
@@ -44,7 +45,10 @@ void draw() {
     //rotateZ(radians(180));
   }
   delay(40);
-  save("stillframe.png");
+  if (frameCount < 360){
+  saveFrame("###.gif");
+  println(frameCount);
+  }
 }
 
 class Patch {
