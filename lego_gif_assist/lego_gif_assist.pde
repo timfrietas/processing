@@ -11,7 +11,7 @@ boolean manual = false;
 Cell[][] grid;
 
 // Global var for resolution of pixels
-int res = 5;
+int res = 10;
 
 //Global vars to crop section of gif
 //TODO: Leave at 0 until canvas dynamic resizing works, add support for padding right and bottom
@@ -20,7 +20,7 @@ int row_pad = 0;
 
 //import source gif 
 //todo: allow import from URL
-String sourceFile = "carlton.gif";
+String sourceFile = "out.gif";
 
 
 
@@ -70,6 +70,7 @@ void draw() {
     for (int i = column_pad; i < cols; i++) {
       for (int j = row_pad; j < rows; j++) {
         grid[i][j].display();
+        println(grid[i][j]);
         myAnimation.play();
       }
     }
